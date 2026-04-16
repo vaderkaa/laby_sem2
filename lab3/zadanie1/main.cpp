@@ -3,23 +3,38 @@
 #include <iostream>
 #include <vector>
 
+#include <algorithm>
+#include <iomanip>
+#include <ios>
+#include <ostream>
+
 using namespace l2;
 
-/*void print_readable_character(std::byte byte)
+void print_readable_character(std::byte byte) //funkcja przyjmuje 1 bajt po prostu
 {
-    if (byte >= std::byte{0x20} && byte <= std::byte{0x7E})
-        std::cout << static_cast<char>(byte);
+    if (byte >= std::byte{0x20} && byte <= std::byte{0x7E}) //wybiera znaki, ktore widac
+        std::cout << static_cast<char>(byte); //zrzutuj 8 bitow na char, zebysmy mogli to zobaczyc
     else
-        std::cout << ".";  // Non readable character cannot be shown in the console
+        std::cout << ".";  //non readable character cannot be shown in the console, wiec stawiamy kropke, zeby widziec, ze costam tak naprawde stoi
 }
 
-void dump_memory(std::byte* start, size_t count)
+void dump_memory(std::byte* start, size_t count) //wskaznik na bajt i ilosc bajtow do wypisania
 {
-    const long int window_width = 8;
+    const long int window_width = 8; //w jednej linii chcemy widziec 8 bajtow
 
-    // STAGE 3: Implement me!
-    // Hint: you can use print_readable_character function to print arbitrary byte as character
-}*/
+    const std::byte* finish_addr = start + count; //adres, na ktorym mamy skonczyc
+    for(std::byte* addr = start; addr < finish_addr; addr += window_width) //wypisuje linia po linii, od poczatku do konca wypisywanej linii
+    {
+        int max_idx = std::min(finish_addr - addr, window_width); //jesli w linii nie bedzie 8 bajtow
+        std::cout << std::hex << addr << ": "; //wypisanie adres pamieci
+        for (int idx = 0; idx < max_idx; ++idx) //wypisanie kazdego bajta jako liczby szesnastkowej
+            std::cout << std::setfill('0') << std::setw(2) << std::hex << static_cast<unsigned int>(*(addr + idx)) << " "; //zamiast 5 wypisze 05
+        std::cout << "| ";
+        for (int idx = 0; idx < max_idx; ++idx) //jeszcze raz wypisanie tych bajtow, ale jako znaki
+            print_readable_character(*(addr + idx));
+        std::cout << " |" << std::endl;
+    }
+}
 
 int main()
 {
@@ -68,7 +83,7 @@ int main()
     for(size_t i=0; i<array_size; i++)
         std::cout << vector3_length(heap_array[i]) << std::endl;
 
-    delete[] heap_array; //trzeba usunac!!!
+    //delete[] heap_array; //trzeba usunac!!!
     //[] bo uzywalam new[]
 
     // std::vector - wewnetrznie zarzadza pamiecia
@@ -89,6 +104,11 @@ int main()
     //jesli Vector3* moj_ukochany_wektor = &vector_of_vectors[2]; to po push_back adres moglby sie zmienic, a moj_ukochany_wektor wskazywalby na pustke
     //--------------------------------------------------
     std::cout << "STAGE 4" << std::endl;
+
+    dump_memory(reinterpret_cast<std::byte*>(stack_array), array_size * sizeof(Vector3));
+    dump_memory(reinterpret_cast<std::byte*>(heap_array), array_size * sizeof(Vector3));
+    delete[] heap_array;
+    dump_memory(reinterpret_cast<std::byte*>(vector_of_vectors3.data()), vector_of_vectors3.size() * sizeof(Vector3));
 
     //--------------------------------------------------
     std::cout << "STAGE 5" << std::endl;
