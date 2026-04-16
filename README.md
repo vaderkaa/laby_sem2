@@ -1,9 +1,5 @@
-Zazwyczaj stosuje się taki podział:
-
+Jeśli pliki cpp i hpp mają znajdować się w oddzielnych folderach:
 src/ – tu trafiają pliki .cpp.
-
 include/ – tu lądują pliki .hpp.
-
-Oto jak musisz wtedy zmienić swoje podejście:
-
+Wtedy w pliku cpp robisz:
 #include "../include/mini_vector.hpp"
