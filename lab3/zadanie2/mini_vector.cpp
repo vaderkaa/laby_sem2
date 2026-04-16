@@ -79,7 +79,7 @@ void vector_shrink(MiniVector& v, int new_capacity)
 
     if(v.capacity == new_capacity)
     {
-        std::cout << "Cannot shirnk vector: new capacity is same as current." << std::endl;
+        std::cout << "Cannot shrink vector: new capacity is same as current." << std::endl;
         return;
     }
 
@@ -116,7 +116,7 @@ void vector_clear(MiniVector& v)
 //ETAP 4
 void vector_remove(MiniVector& v, int x)
 {
-    if(x >= v.size)
+    if(x - 1 >= v.size || x <= 0)
     {
         std::cout << "The requested element index is exceeding vector size. (Vector size: " << v.size << ". Requested idx for element removal: " << x << ")" << std::endl;
         return;
