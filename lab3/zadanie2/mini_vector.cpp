@@ -42,6 +42,9 @@ void vector_print(MiniVector& v)
 void vector_destroy(MiniVector& v)
 {
     delete[] v.elements;
+    v.elements = nullptr;
+    v.size = 0;
+    v.capacity = 0;
 }
 
 //ETAP 2
