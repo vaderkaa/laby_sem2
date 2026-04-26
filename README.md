@@ -1,4 +1,4 @@
-### Organizacja plików projektu
+### Organizacja plików projektu (tak na wypadek)
 
 Jeśli pliki `.cpp` i `.hpp` mają znajdować się w oddzielnych folderach:
 
