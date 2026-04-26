@@ -12,7 +12,7 @@ private:
 public:
     Playlist(unsigned int initial_capacity = 10);
 
-    //KONSTRUKTOR KOPIUJACY - dla I-wartosci - robie kopie, bo oryginal musi przetrwac
+    //KONSTRUKTOR KOPIUJACY - dla l-wartosci - robie kopie, bo oryginal musi przetrwac
     Playlist(const Playlist& other); //const!!! bo tylko kopiuje
 
     //OPERATOR PRZYPISANIA

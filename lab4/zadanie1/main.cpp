@@ -91,6 +91,7 @@ int main() {
 
     //std::shared_ptr - kilka czesci programu ma dostep do tego samego obiektu i zadna nie jest ta "glowna"
     // [TODO 1]: Zdefiniuj dwa puste wektory przechowujace shared_ptr do Dummy
+    
     //przed klamerka beda zyly dluzej niz w klamerce
     std::vector<std::shared_ptr<Dummy>> v1;
     std::vector<std::shared_ptr<Dummy>> v2;
@@ -116,7 +117,7 @@ int main() {
     //zmienne lokalne A, B, C gina, liczniki to teraz 1, 2, 2, ale reszta obiektow nie umiera
 
     std::cout << "\nClearing v1" << std::endl;
-    v1.clear(); //A spada na 0 i ginie, B, C spadaja na 1 i gina
+    v1.clear(); //A spada na 0 i ginie, B, C spadaja na 1
     //bez klamerek A spada na 1, B, C spadaja na 2
     std::cout << std::endl;
 
