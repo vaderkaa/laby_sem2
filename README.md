@@ -119,10 +119,3 @@ Metoda `.reset()` sprawia, że wariant staje się pusty (`std::nullopt`). Jeśli
 
 * Cykl życia: Kiedy wkładasz obiekt do `optional`, tworzona jest jego **kopia** wewnątrz pudełka. Oryginał i kopia to dwa osobne byty.
 * Bezpieczeństwo: Używamy go zamiast "magicznych wartości" (np. zamiast zwracać `-1`, gdy nie znaleziono elementu, lepiej zwrócić `std::nullopt`).
-
----
-
-**Szybkie porównanie dla Ciebie:**
-
-* Variant: "Jedno z wielu" (np. int ALBO float ALBO bool).
-* Optional: "Wartość ALBO nic" (np. int ALBO null).
