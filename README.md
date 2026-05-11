@@ -10,6 +10,8 @@ Wtedy w pliku `.cpp` dołączasz nagłówek w ten sposób:
 #include "../include/mini_vector.hpp"
 ```
 
+### Unique_ptr
+
 ```cpp
 template<typename T>
 class vector {
@@ -17,8 +19,6 @@ class vector {
   void push_back(const T& val);
 };
 ```
-
-### Unique_ptr
 
 Kiedy tworzysz obiekt przez `new`, musisz pamiętać o `delete`. Jeśli zapomnisz – masz wyciek pamięci.
 Unique_ptr robi to automatycznie. Gdy obiekt vector przestaje istnieć (kończy się jego zasięg), `std::unique_ptr` sam "sprząta" pamięć, której używał.
@@ -32,8 +32,8 @@ Jeśli stworzyłeś `vector<int>`, to tutaj T staje się int.
 pair(T t, U u) : t(std::move(t)), u(std::move(u)) {}
 ```
 
-`Bez std::move`: Kompilator musiałby zrobić drugą kopię. To tak, jakbyś miał dokument w ręku, podszedł do kserokopiarki, zrobił kopię i włożył ją do segregatora, a oryginał wyrzucił do kosza sekundę później (bo funkcja się kończy). To strata czasu i papieru.
-`Z std::move`: Mówisz kompilatorowi: „Ej, te lokalne zmienne t i u i tak za chwilę znikną, bo kończy się konstruktor. Nie kopiuj ich. Po prostu zabierz im zawartość i daj moim polom w klasie”.
+* Bez `std::move`: Kompilator musiałby zrobić drugą kopię. To tak, jakbyś miał dokument w ręku, podszedł do kserokopiarki, zrobił kopię i włożył ją do segregatora, a oryginał wyrzucił do kosza sekundę później (bo funkcja się kończy). To strata czasu i papieru.
+* Z `std::move`: Mówisz kompilatorowi: „Ej, te lokalne zmienne t i u i tak za chwilę znikną, bo kończy się konstruktor. Nie kopiuj ich. Po prostu zabierz im zawartość i daj moim polom w klasie”.
 
 ```cpp
 template<typename T>
