@@ -78,8 +78,6 @@ Uwaga: Jeśli użyjesz `std::get<int>`, a wariant aktualnie trzyma `bool`, progr
 
 Oto notatka o **`std::optional`** przygotowana dokładnie w takim samym stylu, jak Twoja notatka o `variant`. Dzięki temu będziesz mieć spójne materiały do nauki.
 
----
-
 ### Optional
 
 ```cpp
@@ -108,9 +106,9 @@ int z = opt.value_or(0);          // Zwraca wartość, a jeśli pusto - zwraca 0
 
 `std::optional` daje kilka sposobów na wyciągnięcie danych:
 
-* **`.value()`**: Bezpieczne. Jeśli pudełko jest puste, program rzuci wyjątek `std::bad_optional_access`.
-* **`operator*`**: Działa jak przy wskaźnikach. Jest szybki, ale jeśli pudełko jest puste, zachowanie programu jest nieprzewidywalne (tzw. Undefined Behavior).
-* **`.value_or(domyślna)`**: Bardzo przydatne – pozwala ustalić "plan awaryjny", jeśli wartości nie ma.
+* `.value()`: Bezpieczne. Jeśli pudełko jest puste, program rzuci wyjątek `std::bad_optional_access`.
+* `operator*`: Działa jak przy wskaźnikach. Jest szybki, ale jeśli pudełko jest puste, zachowanie programu jest nieprzewidywalne (tzw. Undefined Behavior).
+* `.value_or(domyślna)`: Bardzo przydatne – pozwala ustalić "plan awaryjny", jeśli wartości nie ma.
 
 ```cpp
 opt.reset();                      // Czyści optional, niszcząc obiekt w środku
@@ -119,12 +117,12 @@ opt.reset();                      // Czyści optional, niszcząc obiekt w środk
 
 Metoda `.reset()` sprawia, że wariant staje się pusty (`std::nullopt`). Jeśli w środku był obiekt, zostaje dla niego wywołany destruktor.
 
-* **Cykl życia**: Kiedy wkładasz obiekt do `optional`, tworzona jest jego **kopia** wewnątrz pudełka. Oryginał i kopia to dwa osobne byty.
-* **Bezpieczeństwo**: Używamy go zamiast "magicznych wartości" (np. zamiast zwracać `-1`, gdy nie znaleziono elementu, lepiej zwrócić `std::nullopt`).
+* Cykl życia: Kiedy wkładasz obiekt do `optional`, tworzona jest jego **kopia** wewnątrz pudełka. Oryginał i kopia to dwa osobne byty.
+* Bezpieczeństwo: Używamy go zamiast "magicznych wartości" (np. zamiast zwracać `-1`, gdy nie znaleziono elementu, lepiej zwrócić `std::nullopt`).
 
 ---
 
 **Szybkie porównanie dla Ciebie:**
 
-* **Variant:** "Jedno z wielu" (np. int ALBO float ALBO bool).
-* **Optional:** "Wartość ALBO nic" (np. int ALBO null).
+* Variant: "Jedno z wielu" (np. int ALBO float ALBO bool).
+* Optional: "Wartość ALBO nic" (np. int ALBO null).
