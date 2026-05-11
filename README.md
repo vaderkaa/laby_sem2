@@ -45,7 +45,7 @@ void swap(T& a, T& b) {
 ```
 
 * T / U: To typy danych, które zdefiniowałeś w szablonie. Jeśli Twoja para to `pair<int, string>`, to `first()` zwróci `int`, a `second()` zwróci `string`.
-* `&` (Referencja): To jest tu najważniejsze. Funkcja nie zwraca kopii tego, co jest w środku, ale oryginał. Gdyby nie było `&`, funkcja robiłaby kserokopię danych. Jeśli Twoim danym byłoby np. zdjęcie o rozmiarze 10MB, każde wywołanie `first()` zajmowałoby nową pamięć i czas procesora. Dzięki & dostajesz "bezpośredni wgląd" do zmiennej wewnątrz obiektu.
+* `&` (referencja): To jest tu najważniejsze. Funkcja nie zwraca kopii tego, co jest w środku, ale oryginał. Gdyby nie było `&`, funkcja robiłaby kserokopię danych. Jeśli Twoim danym byłoby np. zdjęcie o rozmiarze 10MB, każde wywołanie `first()` zajmowałoby nową pamięć i czas procesora. Dzięki & dostajesz "bezpośredni wgląd" do zmiennej wewnątrz obiektu.
 
 ### Variant
 
@@ -148,3 +148,28 @@ l.remove_if([](int x){ return x > 100; }); // usuwa elementy spełniające warun
 * Splice (magia listy): `l.splice(it, inna_lista)` pozwala błyskawicznie przenieść elementy z jednej listy do drugiej. Nie kopiuje danych, tylko "przepina" wskaźniki węzłów. To operacja, której nie da się zrobić tak wydajnie na wektorze.
 * Stabilność iteratorów: W liście, dopóki nie usuniesz konkretnego elementu, na który wskazuje Twój iterator, pozostaje on ważny. Dodawanie miliona innych elementów dookoła nic nie zmienia. W wektorze dodanie jednego elementu może "przesunąć" całą pamięć i zepsuć wszystkie iteratory.
 * Kiedy nie używać: Jeśli Twój algorytm polega głównie na skakaniu do losowych indeksów (np. co trzeci element), lista będzie tragicznie wolna przez brak `l[i]`. Wtedy lepszy będzie wektor.
+
+### Ranged-for-loop
+```cpp
+std::list<int> l = {1, 2, 3, 4};
+
+for (int it : l) { 
+    std::cout << it << " "; // wypisuje: 1 2 3 4
+}
+```
+
+Pętla ta automatycznie przechodzi od początku (`begin()`) do końca (`end()`) kontenera. Nie musisz tworzyć iteratora, sprawdzać warunku zakończenia ani ręcznie robić `++it`. C++ robi to wszystko za Ciebie "pod maską".
+
+```cpp
+for (const auto& item : collection) { ... }
+```
+
+* `auto`: Kompilator sam domyśli się, jaki typ danych jest w kontenerze (nie musisz wpisywać np. `Movie<int>::Director`).
+* `&` (referencja): Nie kopiujesz elementów. Jeśli lista zawiera duże obiekty, pętla będzie działać błyskawicznie.
+* `const`: Gwarantuje, że przez pomyłkę nie zmienisz danych wewnątrz pętli.
+
+Tylko odczyt (Najczęstszy):
+`for (const auto& x : lista)` – najbezpieczniejszy, nie kopiuje, nie pozwala zmieniać.
+
+Modyfikacja elementów:
+`for (auto& x : lista)` – jeśli chcesz np. każdą liczbę w liście pomnożyć przez 2.
