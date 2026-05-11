@@ -46,3 +46,32 @@ void swap(T& a, T& b) {
 
 * T / U: To typy danych, które zdefiniowałeś w szablonie. Jeśli Twoja para to `pair<int, string>`, to `first()` zwróci `int`, a `second()` zwróci `string`.
 * & (Referencja): To jest tu najważniejsze. Funkcja nie zwraca kopii tego, co jest w środku, ale oryginał. Gdyby nie było &, funkcja robiłaby kserokopię danych. Jeśli Twoim danym byłoby np. zdjęcie o rozmiarze 10MB, każde wywołanie `first()` zajmowałoby nową pamięć i czas procesora. Dzięki & dostajesz "bezpośredni wgląd" do zmiennej wewnątrz obiektu.
+
+### Variant
+
+```cpp
+std::variant<int, float, bool> v;
+v = 3;      // Teraz v trzyma inta
+v = 2.0f;   // Teraz v trzyma float (stara wartość int zostaje nadpisana)
+v = true;   // Teraz v trzyma bool
+```
+
+`std::variant` dynamicznie zmienia swój "stan". Gdy przypisujesz nową wartość innego typu, stara jest niszczona, a nowa zajmuje jej miejsce w pamięci.
+
+```cpp
+if (std::holds_alternative<bool>(v)) { ... }
+```
+
+To funkcja, która zwraca true, jeśli w wariancie aktualnie znajduje się typ podany w nawiasach ostrych. Zapobiega to błędom w trakcie działania programu.
+
+```cpp
+std::get<bool>(v) = false;
+```
+
+`std::get<T>` daje Ci dostęp do wartości. Możesz ją odczytać lub – tak jak w przykładzie – przypisać nową wartość do tego samego typu.
+Uwaga: Jeśli użyjesz std::get<int>, a wariant aktualnie trzyma bool, program rzuci wyjątek (`std::bad_variant_access`).
+
+* Domyślna konstrukcja: Jeśli napiszesz std::variant<int, float> v; i nic nie przypiszesz, wariant automatycznie "stworzy" pierwszy typ z listy (czyli tutaj int o wartości 0).
+* Metoda .index(): Każdy typ w wariancie ma swój numer (licząc od zera).
+* W std::variant<int, float, bool>: int ma indeks 0, float ma 1, a bool ma 2.
+* Wywołanie v.index() powie Ci, który "slot" jest aktualnie zajęty.
