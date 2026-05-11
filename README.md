@@ -75,3 +75,56 @@ Uwaga: Jeśli użyjesz `std::get<int>`, a wariant aktualnie trzyma `bool`, progr
 * Metoda `.index()`: Każdy typ w wariancie ma swój numer (licząc od zera).
 * W `std::variant<int, float, bool>`: `int` ma indeks 0, `float` ma 1, a `bool` ma 2.
 * Wywołanie `v.index()` powie Ci, który "slot" jest aktualnie zajęty.
+
+Oto notatka o **`std::optional`** przygotowana dokładnie w takim samym stylu, jak Twoja notatka o `variant`. Dzięki temu będziesz mieć spójne materiały do nauki.
+
+---
+
+### Optional
+
+```cpp
+std::optional<int> opt;           // Puste pudełko (domyślnie std::nullopt)
+opt = 5;                          // Teraz pudełko zawiera int o wartości 5
+opt = std::nullopt;               // Pudełko znów jest puste
+
+```
+
+`std::optional` to tzw. **typ sumacyjny**, ponieważ liczba jego stanów to liczba stanów danego typu + 1 (dodatkowy stan "nic", czyli `null`). Pozwala bezpiecznie przechowywać wartość lub informację o jej braku bez używania wskaźników.
+
+```cpp
+if (opt.has_value()) { ... }      // Zwraca true, jeśli w środku coś jest
+if (opt) { ... }                  // Skrócony zapis sprawdzania (działa tak samo)
+
+```
+
+Metoda `has_value()` (lub samo użycie zmiennej w `if`) pozwala sprawdzić, czy pudełko jest pełne, zanim spróbujemy się do niego dobrać.
+
+```cpp
+int x = opt.value();              // Zwraca wartość lub rzuca wyjątek
+int y = *opt;                     // Zwraca wartość bez sprawdzania (szybciej, ale mniej bezpiecznie)
+int z = opt.value_or(0);          // Zwraca wartość, a jeśli pusto - zwraca 0
+
+```
+
+`std::optional` daje kilka sposobów na wyciągnięcie danych:
+
+* **`.value()`**: Bezpieczne. Jeśli pudełko jest puste, program rzuci wyjątek `std::bad_optional_access`.
+* **`operator*`**: Działa jak przy wskaźnikach. Jest szybki, ale jeśli pudełko jest puste, zachowanie programu jest nieprzewidywalne (tzw. Undefined Behavior).
+* **`.value_or(domyślna)`**: Bardzo przydatne – pozwala ustalić "plan awaryjny", jeśli wartości nie ma.
+
+```cpp
+opt.reset();                      // Czyści optional, niszcząc obiekt w środku
+
+```
+
+Metoda `.reset()` sprawia, że wariant staje się pusty (`std::nullopt`). Jeśli w środku był obiekt, zostaje dla niego wywołany destruktor.
+
+* **Cykl życia**: Kiedy wkładasz obiekt do `optional`, tworzona jest jego **kopia** wewnątrz pudełka. Oryginał i kopia to dwa osobne byty.
+* **Bezpieczeństwo**: Używamy go zamiast "magicznych wartości" (np. zamiast zwracać `-1`, gdy nie znaleziono elementu, lepiej zwrócić `std::nullopt`).
+
+---
+
+**Szybkie porównanie dla Ciebie:**
+
+* **Variant:** "Jedno z wielu" (np. int ALBO float ALBO bool).
+* **Optional:** "Wartość ALBO nic" (np. int ALBO null).
