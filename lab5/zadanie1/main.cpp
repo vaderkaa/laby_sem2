@@ -49,7 +49,7 @@ int main() {
     }
     
     std::cout << "\n*************** PART 2 (Movie - additional functionality) ***************\n\n";
-    /*
+    
     movie1 + 8.0 + 9.0 + 8.5;
     movie2 + 7.5 + 7.0 + 8.0;
 
@@ -74,7 +74,7 @@ int main() {
     } else {
         std::cout << "Movie2 comes before Movie1\n";
     }
-    */
+    
     std::cout << "\n*************** PART 3 (MovieCollection) ***************\n\n";
     /*
     MovieCollection collection;
