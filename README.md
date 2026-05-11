@@ -24,7 +24,7 @@ Kiedy tworzysz obiekt przez `new`, musisz pamiętać o `delete`. Jeśli zapomnis
 Unique_ptr robi to automatycznie. Gdy obiekt vector przestaje istnieć (kończy się jego zasięg), `std::unique_ptr` sam "sprząta" pamięć, której używał.
 Słowo unique oznacza, że tylko jeden wskaźnik na raz może posiadać dany zasób.
 Nawiasy kwadratowe informują kompilator, że ten wskaźnik nie zarządza jednym pojedynczym obiektem, ale całą tablicą obiektów.
-Jeśli stworzyłeś `vector<int>`, to tutaj T staje się int.
+Jeśli stworzyłeś `vector<int>`, to tutaj T staje się `int`.
 
 ### Szablony
 
@@ -45,7 +45,7 @@ void swap(T& a, T& b) {
 ```
 
 * T / U: To typy danych, które zdefiniowałeś w szablonie. Jeśli Twoja para to `pair<int, string>`, to `first()` zwróci `int`, a `second()` zwróci `string`.
-* & (Referencja): To jest tu najważniejsze. Funkcja nie zwraca kopii tego, co jest w środku, ale oryginał. Gdyby nie było &, funkcja robiłaby kserokopię danych. Jeśli Twoim danym byłoby np. zdjęcie o rozmiarze 10MB, każde wywołanie `first()` zajmowałoby nową pamięć i czas procesora. Dzięki & dostajesz "bezpośredni wgląd" do zmiennej wewnątrz obiektu.
+* `&` (Referencja): To jest tu najważniejsze. Funkcja nie zwraca kopii tego, co jest w środku, ale oryginał. Gdyby nie było `&`, funkcja robiłaby kserokopię danych. Jeśli Twoim danym byłoby np. zdjęcie o rozmiarze 10MB, każde wywołanie `first()` zajmowałoby nową pamięć i czas procesora. Dzięki & dostajesz "bezpośredni wgląd" do zmiennej wewnątrz obiektu.
 
 ### Variant
 
