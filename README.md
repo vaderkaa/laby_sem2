@@ -136,3 +136,17 @@ Nawigacja i modyfikacja:
 * `erase(it)` - zawsze zwraca iterator do elementu znajdującego się za tym usuniętym. Należy go przypisać (`it = l.erase(it)`), aby móc dalej bezpiecznie korzystać z pętli.
 * `emplace_back` / `emplace` - są wydajniejsze od push, bo budują obiekt bezpośrednio w pamięci listy, zamiast tworzyć go wcześniej i kopiować.
 * `end()` - to nie jest ostatni element, tylko punkt za końcem listy. Ostatni element to `--end()`.
+
+To są 3 najważniejsze rzeczy, których brakuje w Twojej notatce, a które prawie na pewno pojawią się na labach (szczególnie sortowanie, na którym łatwo się naciąć):
+
+```cpp
+l.sort();                                  // l.sort() zamiast std::sort
+l.unique();                                // usuwa sąsiadujące duplikaty (najpierw posortuj!)
+l.remove(10);                              // usuwa wszystkie dziesiątki z całej listy
+l.remove_if([](int x){ return x > 100; }); // usuwa elementy spełniające warunek
+```
+
+* Sortowanie: To najczęstszy błąd. Nie możesz użyć standardowego algorytmu `std::sort(l.begin(), l.end()`), ponieważ on wymaga dostępu swobodnego (takiego jak w wektorze). Lista ma swoją własną, wbudowaną metodę l.sort(), która jest zoptymalizowana pod kątem węzłów.
+* Splice (magia listy): l.splice(it, inna_lista) pozwala błyskawicznie przenieść elementy z jednej listy do drugiej. Nie kopiuje danych, tylko "przepina" wskaźniki węzłów. To operacja, której nie da się zrobić tak wydajnie na wektorze.
+* Stabilność iteratorów: W liście, dopóki nie usuniesz konkretnego elementu, na który wskazuje Twój iterator, pozostaje on ważny. Dodawanie miliona innych elementów dookoła nic nie zmienia. W wektorze dodanie jednego elementu może "przesunąć" całą pamięć i zepsuć wszystkie iteratory.
+* Kiedy nie używać: Jeśli Twój algorytm polega głównie na skakaniu do losowych indeksów (np. co trzeci element), lista będzie tragicznie wolna przez brak l[i]. Wtedy lepszy będzie wektor.
