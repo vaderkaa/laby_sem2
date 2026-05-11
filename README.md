@@ -62,16 +62,16 @@ v = true;   // Teraz v trzyma bool
 if (std::holds_alternative<bool>(v)) { ... }
 ```
 
-To funkcja, która zwraca true, jeśli w wariancie aktualnie znajduje się typ podany w nawiasach ostrych. Zapobiega to błędom w trakcie działania programu.
+To funkcja, która zwraca `true`, jeśli w wariancie aktualnie znajduje się typ podany w nawiasach ostrych. Zapobiega to błędom w trakcie działania programu.
 
 ```cpp
 std::get<bool>(v) = false;
 ```
 
 `std::get<T>` daje Ci dostęp do wartości. Możesz ją odczytać lub – tak jak w przykładzie – przypisać nową wartość do tego samego typu.
-Uwaga: Jeśli użyjesz std::get<int>, a wariant aktualnie trzyma bool, program rzuci wyjątek (`std::bad_variant_access`).
+Uwaga: Jeśli użyjesz `std::get<int>`, a wariant aktualnie trzyma `bool`, program rzuci wyjątek (`std::bad_variant_access`).
 
-* Domyślna konstrukcja: Jeśli napiszesz std::variant<int, float> v; i nic nie przypiszesz, wariant automatycznie "stworzy" pierwszy typ z listy (czyli tutaj int o wartości 0).
-* Metoda .index(): Każdy typ w wariancie ma swój numer (licząc od zera).
-* W std::variant<int, float, bool>: int ma indeks 0, float ma 1, a bool ma 2.
-* Wywołanie v.index() powie Ci, który "slot" jest aktualnie zajęty.
+* Domyślna konstrukcja: Jeśli napiszesz `std::variant<int, float> v` i nic nie przypiszesz, wariant automatycznie "stworzy" pierwszy typ z listy (czyli tutaj `int` o wartości 0).
+* Metoda `.index()`: Każdy typ w wariancie ma swój numer (licząc od zera).
+* W `std::variant<int, float, bool>`: `int` ma indeks 0, `float` ma 1, a `bool` ma 2.
+* Wywołanie `v.index()` powie Ci, który "slot" jest aktualnie zajęty.
