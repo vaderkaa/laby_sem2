@@ -84,7 +84,6 @@ Oto notatka o **`std::optional`** przygotowana dokładnie w takim samym stylu, j
 std::optional<int> opt;           // Puste pudełko (domyślnie std::nullopt)
 opt = 5;                          // Teraz pudełko zawiera int o wartości 5
 opt = std::nullopt;               // Pudełko znów jest puste
-
 ```
 
 `std::optional` to tzw. **typ sumacyjny**, ponieważ liczba jego stanów to liczba stanów danego typu + 1 (dodatkowy stan "nic", czyli `null`). Pozwala bezpiecznie przechowywać wartość lub informację o jej braku bez używania wskaźników.
@@ -92,7 +91,6 @@ opt = std::nullopt;               // Pudełko znów jest puste
 ```cpp
 if (opt.has_value()) { ... }      // Zwraca true, jeśli w środku coś jest
 if (opt) { ... }                  // Skrócony zapis sprawdzania (działa tak samo)
-
 ```
 
 Metoda `has_value()` (lub samo użycie zmiennej w `if`) pozwala sprawdzić, czy pudełko jest pełne, zanim spróbujemy się do niego dobrać.
@@ -101,7 +99,6 @@ Metoda `has_value()` (lub samo użycie zmiennej w `if`) pozwala sprawdzić, czy 
 int x = opt.value();              // Zwraca wartość lub rzuca wyjątek
 int y = *opt;                     // Zwraca wartość bez sprawdzania (szybciej, ale mniej bezpiecznie)
 int z = opt.value_or(0);          // Zwraca wartość, a jeśli pusto - zwraca 0
-
 ```
 
 `std::optional` daje kilka sposobów na wyciągnięcie danych:
@@ -112,10 +109,30 @@ int z = opt.value_or(0);          // Zwraca wartość, a jeśli pusto - zwraca 0
 
 ```cpp
 opt.reset();                      // Czyści optional, niszcząc obiekt w środku
-
 ```
 
 Metoda `.reset()` sprawia, że wariant staje się pusty (`std::nullopt`). Jeśli w środku był obiekt, zostaje dla niego wywołany destruktor.
 
 * Cykl życia: Kiedy wkładasz obiekt do `optional`, tworzona jest jego **kopia** wewnątrz pudełka. Oryginał i kopia to dwa osobne byty.
 * Bezpieczeństwo: Używamy go zamiast "magicznych wartości" (np. zamiast zwracać `-1`, gdy nie znaleziono elementu, lepiej zwrócić `std::nullopt`).
+
+### List
+
+```cpp
+std::list<int> l = {10, 20};
+l.emplace_back(30);           // tworzy 30 na koncu bez kopiowania oryginału
+auto it = l.begin();          // ustawia iterator na pierwszy element (10)
+std::advance(it, 2);          // przesuwa iterator o 2 pozycje (teraz wskazuje na 30)
+l.emplace(it, 25);            // wstawia 25 przed elementem, na który wskazuje it
+it = l.erase(it);             // usuwa element (30) i zwraca iterator na następny (l.end())
+```
+
+Lista to ciąg węzłów rozrzuconych w pamięci, gdzie każdy zna adres swojego sąsiada. Ponieważ elementy nie leżą obok siebie, nie działa dostęp przez l[i]. Do konkretnego miejsca docieramy tylko przesuwając iterator krok po kroku.
+
+Nawigacja i modyfikacja:
+
+* `std::advance(it, n)` - przesuwa iterator o n kroków (skacze po węzłach).
+* `std::next(it)` / `std::prev(it)` - zwracają iterator o krok dalej lub wcześniej bez modyfikowania it.
+* `erase(it)` - zawsze zwraca iterator do elementu znajdującego się za tym usuniętym. Należy go przypisać (`it = l.erase(it)`), aby móc dalej bezpiecznie korzystać z pętli.
+* `emplace_back` / `emplace` - są wydajniejsze od push, bo budują obiekt bezpośrednio w pamięci listy, zamiast tworzyć go wcześniej i kopiować.
+* `end()` - to nie jest ostatni element, tylko punkt za końcem listy. Ostatni element to `--end()`.
