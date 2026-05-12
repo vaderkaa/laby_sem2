@@ -6,11 +6,14 @@ LDFLAGS=-fsanitize=address,leak
 
 all: l5
 
-l5: main.o
-	${CXX} ${LDFLAGS} main.o -o l5
+l5: main.o MovieCollection.o
+	${CXX} ${LDFLAGS} main.o MovieCollection.o -o l5
 
 main.o: main.cpp Movie.hpp
 	${CXX} ${CXXFLAGS} -c main.cpp -o main.o
+
+MovieCollection.o: MovieCollection.cpp MovieCollection.hpp Movie.hpp
+	${CXX} ${CXXFLAGS} -c MovieCollection.cpp -o MovieCollection.o
 
 clean:
 	rm -f *.o l5

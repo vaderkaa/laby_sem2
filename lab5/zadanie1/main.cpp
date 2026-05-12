@@ -2,7 +2,7 @@
 #include <iomanip>
 
 #include "Movie.hpp"
-//#include "MovieCollection.hpp"
+#include "MovieCollection.hpp"
 
 int main() {
 
@@ -76,7 +76,7 @@ int main() {
     }
     
     std::cout << "\n*************** PART 3 (MovieCollection) ***************\n\n";
-    /*
+    
     MovieCollection collection;
 
     Movie<double> dunkirk("Dunkirk", 2017, director1);
@@ -115,7 +115,7 @@ int main() {
             std::cout << movie << "\n";
         }
     }
-    */
+    
     std::cout << "\n*************** PART 4 (MovieCollection  - additional functionality) ***************\n\n";
     /*
     auto foundMovie = collection.findMovieWithAverageAbove(8.0);
